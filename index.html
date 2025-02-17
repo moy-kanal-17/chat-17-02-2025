@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>node js chat example</title>
+    <style>
+        body{
+            background-color: black;
+            color: greenyellow;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        header{
+            text-align: center;
+        }
+
+        #message{
+            margin-left: 1em;
+            list-style: none;
+        }
+
+        #form{
+            display: flex;
+        }
+
+        input, label{
+            display: block;
+        }
+
+        input{
+            outline: none;
+            border: none;
+            background-color: black;
+            color: greenyellow;
+            padding: 1em 0.5em;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 1.5em;
+            flex: 1;
+        }
+
+        label{
+            padding: 1em 0.5em;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NODE JS CHAT</h1>
+        <span id="status">offline</span>
+    </header>
+
+    <main>
+        <ul id="message">
+            <li>SALOM DUNIO!</li>
+        </ul>
+        <form id="form">
+            <label for="message">&gt;</label>
+            <input type="text" name="input" id="input" required autofocus autocomplete="off">
+        </form>
+    </main>
+    
+    <script>
+        const status = document.getElementById("status");
+        const message = document.getElementById("message");
+        const form = document.getElementById("form");
+        const input = document.getElementById("input");
+
+        const ws = new WebSocket("ws://localhost:3000");
+
+        function setStatus(value){
+            status.innerHTML = value;
+        }
+
+        function printMessage(value){
+            const li = document.createElement('li');
+            li.innerHTML = value;
+            message.appendChild(li);
+        }
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            ws.send(input.value);
+            input.value = '';
+        });
+
+        ws.onopen = () => setStatus("Chatga ulandi");
+        ws.onclose = () => setStatus("CHATDAN OCHIRILDI");
+        ws.onmessage = (event) => printMessage(event.data);
+    </script>
+</body>
+</html>

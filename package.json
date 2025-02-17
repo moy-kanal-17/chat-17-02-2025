@@ -1,0 +1,15 @@
+{
+  "name": "ustoz",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
